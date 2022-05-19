@@ -8,14 +8,38 @@ export class TrieTree {
   findNode(prefix) {
     //*regresa [node, depth] node -> el último nodo para el string dado (prefijo)
     //* y depth -> numero de caracteres del prefijo que coinciden con los nodos de la estructura.
+    if (prefix.length === 0) {
+      return [this.root, 0];
+    }
+
+    let [node, depth] = [this.root, 0];
+
+    for (let i = 0; i < prefix.length; i += 1) {
+      if (node.hasChild(prefix[i])) {
+        node = node.getChild(prefix[i]);
+        depth += 1;
+      } else {
+        return [node, 0];
+      }
+    }
+    return [node, depth];
   }
 
   traverse(node, prefix, visit) {
     //*Recorre el árbol de forma recursiva.
+    if (node.isTerminal()) {
+      visit(prefix);
+    }
+
+    for (const char of node.children.keys()) {
+      const next_node = node.getChild(char);
+      this.traverse(next_node, prefix + char, visit);
+    }
   }
 
   isEmpty() {
     //*regresa true si el árbol está vacio o false y si no está vacio.
+    return this.size === 0;
   }
 
   contains(str) {
@@ -47,6 +71,19 @@ export class TrieTree {
 
   complete(prefix) {
     //* regresa un arreglo de strings con el prefijo dado.
+    const completions = [];
+
+    // Pull out the values returned from findNode
+    const [node, depth] = this.findNode(prefix);
+
+    // No node was found
+    if (depth === 0) {
+      return completions;
+    }
+
+    // A node was retrieved, traverse it.
+    this.traverse(node, prefix, completions.push.bind(completions));
+    return completions;
   }
 
   allTreeStrings() {

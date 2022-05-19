@@ -129,7 +129,6 @@ export function SearchBar(props) {
     words = [],
     disableTermSubmit = false,
   } = props;
-
   //Estado 
   //Creamos un nuevo TrieTree
   //searchTerm -> el prefijo a buscar
