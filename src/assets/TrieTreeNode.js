@@ -13,27 +13,36 @@ export class TrieTreeNode {
 
   numChildren() {
     //*regresa el número de hijos del nodo actual.
-    return this.children.length
+    return this.children.length;
   }
   hasChild(character) {
     //*regresa true si alguno de los hijos del nodo contiene un caracter dado.
-    if (this.children === character){
-        return true
+    let temp = Object.keys(this.children);
+    console.log(temp)
+    for (let key of temp) {
+      if (key === character) {
+        return true;
+      }
     }
+    return false;
+    // if (this.children === character) {
+    //     return true;
+    //   }
   }
   getChild(character) {
     //*regresa el nodo hijo que contiene/almacena un caracter dado.
     if (this.hasChild(character)) {
-        return this.children.value;
-    }//!------>Me voy a dormir<------
+      return this.children[character];
+    }
+    return false;
   }
   addChild(character, child_node) {
     //*agrega un nuevo nodo hijo al nodo actual. Deberás de
     //*comprobar si el nodo actual tiene un hijo con el caracter que deseamos agregar.
     if (!this.hasChild(character)) {
-        this.children.set(character, child_node);
+      this.children = child_node.value;
     } else {
-        throw new Error(`Child exists for: ${character}`);
+      throw new Error(`Child exists for: ${character}`);
     }
   }
 }

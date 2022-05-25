@@ -1,8 +1,14 @@
 import { TrieTreeNode } from "./TrieTreeNode";
 
 export class TrieTree {
-  constructor() {
+  constructor(words) {
     this.root = new TrieTreeNode(null);
+    this.string = words;
+    if (words) {
+      for (let i = 0; i < words.length; i++) {
+        this.insert(words[i]);
+      }
+    }
   }
 
   findNode(prefix) {
@@ -14,12 +20,12 @@ export class TrieTree {
 
     let [node, depth] = [this.root, 0];
 
-    for (let i = 0; i < prefix.length; i += 1) {
+    for (let i = 0; i <=  prefix.length; i++) {
       if (node.hasChild(prefix[i])) {
         node = node.getChild(prefix[i]);
         depth += 1;
       } else {
-        return [node, 0];
+        return [node, depth];
       }
     }
     return [node, depth];
@@ -30,8 +36,8 @@ export class TrieTree {
     if (node.isTerminal()) {
       visit(prefix);
     }
-
-    for (const char of node.children.keys()) {
+    let temp = Object.keys(node.children)
+    for (const char of temp) {
       const next_node = node.getChild(char);
       this.traverse(next_node, prefix + char, visit);
     }
@@ -71,7 +77,7 @@ export class TrieTree {
 
   complete(prefix) {
     //* regresa un arreglo de strings con el prefijo dado.
-    const completions = [];
+    const completions = [ ];
 
     // Pull out the values returned from findNode
     const [node, depth] = this.findNode(prefix);
@@ -87,6 +93,8 @@ export class TrieTree {
   }
 
   allTreeStrings() {
-    //*regresa un arreglo con todos los strings almacenados en el tree trie.
+    const all_strings = [];
+    this.traverse(this.root, "", all_strings.push.bind(all_strings));
+    return all_strings;
   }
 }
