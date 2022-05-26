@@ -140,7 +140,7 @@ export function SearchBar(props) {
     searchWords: false,
   });
 
-  const { searchTree, searchTerm, searchWords } = search;
+  const {   searchTree, searchTerm, searchWords } = search;
 
   if (!searchWords && words.length > 0) {
     handleWords(searchTerm, setSearch, words);
