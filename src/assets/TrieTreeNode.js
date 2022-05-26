@@ -18,22 +18,18 @@ export class TrieTreeNode {
   hasChild(character) {
     //*regresa true si alguno de los hijos del nodo contiene un caracter dado.
     let temp = Object.keys(this.children);
-    console.log(temp)
     for (let key of temp) {
       if (key === character) {
         return true;
       }
     }
     return false;
-    // if (this.children === character) {
-    //     return true;
-    //   }
   }
   getChild(character) {
     //*regresa el nodo hijo que contiene/almacena un caracter dado.
     if (this.hasChild(character)) {
       return this.children[character];
-    }
+    } 
     return false;
   }
   addChild(character, child_node) {
